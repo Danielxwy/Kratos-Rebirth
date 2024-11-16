@@ -90,7 +90,7 @@
   };
 
   const emitSnowEnable = (enable) => {
-    let state = enable || (getLS(snowEnableStorageKey) || "true");
+    let state = enable || getLS(snowEnableStorageKey) || "true";
     const snowEnableEvent = new CustomEvent("OnSnowStateChange", {
       detail: {
         enable: state,
@@ -136,18 +136,18 @@
   };
 
   const snowInit = () => {
-    emitSnowEnable();
+    // emitSnowEnable();
     const snowEnableSwitchElement = document.getElementById("snow-toggle");
     snowEnableSwitchElement.addEventListener("click", () => {
       emitSnowEnable(toggleSnowEnable());
     });
   };
-  
+
   const init = () => {
     document.removeEventListener("DOMContentLoaded", init, false);
     window.removeEventListener("load", init, false);
-    krDarkInit()
-    snowInit()
+    krDarkInit();
+    snowInit();
   };
 
   if (document.readyState === "complete") {
