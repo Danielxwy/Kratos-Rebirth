@@ -7,6 +7,7 @@
 (() => {
   const darkmodeCss = document.getElementById("theme-dark-css");
   const darkModeStorageKey = "user-color-scheme";
+  const snowEnableStorageKey = "snow-enable";
 
   /**
    * 设置 LocalStorage 的指定属性
@@ -88,6 +89,16 @@
     }
   };
 
+  const emitSnowEnable = (enable) => {
+    let state = enable || (getLS(snowEnableStorageKey) || "true");
+    const snowEnableEvent = new CustomEvent("OnSnowStateChange", {
+      detail: {
+        enable: state,
+      },
+    });
+    document.dispatchEvent(snowEnableEvent);
+  };
+
   const invertDarkModeObj = {
     dark: "light",
     light: "dark",
@@ -107,23 +118,42 @@
     return currentSetting;
   };
 
+  const toggleSnowEnable = () => {
+    let currentSetting = getLS(snowEnableStorageKey) || "true";
+    let newSetting = currentSetting === "true" ? "false" : "true";
+    setLS(snowEnableStorageKey, newSetting);
+    return newSetting;
+  };
+
   // 加载页面时即立刻提交一次
   emitColorMode();
 
   const krDarkInit = () => {
-    document.removeEventListener("DOMContentLoaded", krDarkInit, false);
-    window.removeEventListener("load", krDarkInit, false);
-
     const darkModeSwitchElement = document.getElementById("theme-toggle");
     darkModeSwitchElement.addEventListener("click", () => {
       emitColorMode(toggleColorMode());
     });
   };
 
+  const snowInit = () => {
+    emitSnowEnable();
+    const snowEnableSwitchElement = document.getElementById("snow-toggle");
+    snowEnableSwitchElement.addEventListener("click", () => {
+      emitSnowEnable(toggleSnowEnable());
+    });
+  };
+  
+  const init = () => {
+    document.removeEventListener("DOMContentLoaded", init, false);
+    window.removeEventListener("load", init, false);
+    krDarkInit()
+    snowInit()
+  };
+
   if (document.readyState === "complete") {
-    setTimeout(krDarkInit);
+    setTimeout(init);
   } else {
-    document.addEventListener("DOMContentLoaded", krDarkInit, false);
-    window.addEventListener("load", krDarkInit, false); //fallback
+    document.addEventListener("DOMContentLoaded", init, false);
+    window.addEventListener("load", init, false); //fallback
   }
 })();
