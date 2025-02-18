@@ -632,12 +632,27 @@ import "./kr-polyfill";
     window.addEventListener("wheel", handleTopNavScrollToggle);
   };
 
+  const initCustoms = () => {
+    const images = document.querySelectorAll(".kratos-entry-thumb-img");
+
+    images.forEach((image) => {
+      image.addEventListener("mouseenter", function () {
+        this.style.transform = "scale(1.1)"; // 放大1.2倍
+      });
+
+      image.addEventListener("mouseleave", function () {
+        this.style.transform = "scale(1)"; // 恢复原大小
+      });
+    });
+  };
+
   const initPerPage = () => {
     initTocWidgetAnim();
     initCodeCopy();
     initCollapseBoxControl();
     commentsLazyLoad();
     checkExpireNotify();
+    initCustoms();
   };
 
   const initPerPageWithConfig = (kr) => {

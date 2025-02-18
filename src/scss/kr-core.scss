@@ -1697,13 +1697,16 @@ ul.kratos-page-meta {
   height: 145px;
   overflow: hidden;
   padding: 0;
+  border: 2px solid #f3f3f3;
+  z-index: 1;
   img {
     position: absolute;
-    padding: 2px;
-    border: 1px solid #f3f3f3;
+    // padding: 2px;
+    // border: 1px solid #f3f3f3;
     height: 100%;
     width: 100%;
     object-fit: cover;
+    z-index: 0;
   }
 }
 
@@ -2603,6 +2606,7 @@ body.scroll-down .kr-tool {
     position: relative;
     width: auto;
     height: auto;
+    overflow: hidden;
     padding: 0 0 60% 0;
     img {
       padding: 0;
@@ -3088,4 +3092,12 @@ span.blur {
 body.custom-background {
   background-size: cover;
   background-attachment: fixed;
+}
+
+/******************* Custom ********************/
+.kratos-entry-thumb-img {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
 }
