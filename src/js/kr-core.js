@@ -633,17 +633,50 @@ import "./kr-polyfill";
   };
 
   const initCustoms = () => {
+    //#region 文章封面图缩放效果
     const images = document.querySelectorAll(".kratos-entry-thumb-img");
 
     images.forEach((image) => {
       image.addEventListener("mouseenter", function () {
-        this.style.transform = "scale(1.1)"; // 放大1.2倍
+        this.style.transform = "scale(1.1)"; // 放大
       });
 
       image.addEventListener("mouseleave", function () {
         this.style.transform = "scale(1)"; // 恢复原大小
       });
     });
+    //#endregion
+
+    //#region 图片懒加载
+    const lazyLoadImages = document.querySelectorAll(".lazy-image");
+    const loadImage = (image) => {
+      image.src = image.dataset.src;
+      image.addEventListener("load", function () {
+        image.classList.add("loaded"); // 取消模糊
+      });
+      image.classList.remove("lazy-image");
+    };
+    // 判断浏览器是否支持 IntersectionObserver 接口
+    if ("IntersectionObserver" in window) {
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const image = entry.target;
+            loadImage(image);
+            observer.unobserve(image);
+          }
+        });
+      });
+
+      lazyLoadImages.forEach((image) => {
+        observer.observe(image);
+      });
+    } else {
+      lazyLoadImages.forEach((image) => {
+        loadImage(image);
+      });
+    }
+    //#endregion
   };
 
   const initPerPage = () => {

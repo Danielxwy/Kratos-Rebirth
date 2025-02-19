@@ -3101,3 +3101,14 @@ body.custom-background {
   transition: transform 0.3s ease;
   transform-origin: center center;
 }
+
+.lazy-image {
+  width: 100%;
+  height: auto;
+  filter: blur(10px);
+}
+
+.lazy-image.loaded {
+  transition: filter 2.5s ease;
+  filter: blur(0);
+}

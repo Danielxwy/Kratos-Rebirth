@@ -37,5 +37,9 @@
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
+  },
+  "dependencies": {
+    "sharp": "^0.33.5",
+    "thumbhash": "^0.1.1"
   }
 }
