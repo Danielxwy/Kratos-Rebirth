@@ -1698,7 +1698,7 @@ ul.kratos-page-meta {
   overflow: hidden;
   padding: 0;
   border: 2px solid #f3f3f3;
-  z-index: 1;
+  z-index: 0;
   img {
     position: absolute;
     // padding: 2px;
@@ -1706,7 +1706,7 @@ ul.kratos-page-meta {
     height: 100%;
     width: 100%;
     object-fit: cover;
-    z-index: 0;
+    z-index: -1;
   }
 }
 
