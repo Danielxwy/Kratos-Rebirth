@@ -3105,10 +3105,16 @@ body.custom-background {
 .lazy-image {
   width: 100%;
   height: auto;
-  filter: blur(10px);
+  visibility: hidden;
 }
 
-.lazy-image.loaded {
-  transition: filter 2.5s ease;
-  filter: blur(0);
+.thumbhash-placeholder {
+  opacity: 1;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.5s ease;
+}
+
+.thumbhash-placeholder.hide {
+  opacity: 0;
 }

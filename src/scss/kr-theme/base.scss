@@ -339,6 +339,10 @@ a:hover,
   }
 }
 
+.thumbhash-placeholder {
+  background-color: $card_background;
+}
+
 /******************* Variables ********************/
 :root {
   --kr-theme-select-text: #{$select_text};

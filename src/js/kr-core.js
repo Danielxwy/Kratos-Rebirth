@@ -647,15 +647,41 @@ import "./kr-polyfill";
     });
     //#endregion
 
-    //#region 图片懒加载
+    //#region 图片懒加载、渐近加载
     const lazyLoadImages = document.querySelectorAll(".lazy-image");
+    const thumbhashHolders = document.querySelectorAll(
+      ".thumbhash-placeholder",
+    );
+    const thumbhashMap = {};
+    thumbhashHolders.forEach((holder) => {
+      const datas = holder.dataset.src.split("|");
+      delete holder.dataset.src;
+      thumbhashMap[datas[0]] = {
+        holder: holder,
+        str: datas[1],
+      };
+    });
+
     const loadImage = (image) => {
-      image.src = image.dataset.src;
-      image.addEventListener("load", function () {
-        image.classList.add("loaded"); // 取消模糊
-      });
+      const thumbhashObj = thumbhashMap[image.dataset.src];
+      if (thumbhashObj) {
+        const thumbhash = Uint8Array.from(atob(thumbhashObj.str), (c) =>
+          c.charCodeAt(0),
+        );
+        thumbhashObj.holder.src = thumbHashToDataURL(thumbhash);
+
+        image.addEventListener("load", function () {
+          thumbhashObj.holder.classList.add("hide");
+          setTimeout(() => {
+            thumbhashObj.holder.style.display = "none";
+          }, 500);
+        });
+      }
+
       image.classList.remove("lazy-image");
+      image.src = image.dataset.src;
     };
+
     // 判断浏览器是否支持 IntersectionObserver 接口
     if ("IntersectionObserver" in window) {
       const observer = new IntersectionObserver((entries, observer) => {
@@ -672,9 +698,7 @@ import "./kr-polyfill";
         observer.observe(image);
       });
     } else {
-      lazyLoadImages.forEach((image) => {
-        loadImage(image);
-      });
+      lazyLoadImages.forEach(loadImage);
     }
     //#endregion
   };

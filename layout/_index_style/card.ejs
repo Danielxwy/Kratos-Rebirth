@@ -22,6 +22,9 @@
                     <a href="<%- url_for(post.path) %>">
                         <img class="kratos-entry-thumb-img lazy-image" data-src="<%- cover %>" alt="<%- url_for(post.title) %>">
                     </a>
+                    <% if (post.thumbhash) { %>
+                        <img class="thumbhash-placeholder" data-src="<%- cover + '|' + post.thumbhash %>" alt="">
+                    <% } %>
                 </div>
             <% } %>
             <div class="kratos-entry-post-inner">
