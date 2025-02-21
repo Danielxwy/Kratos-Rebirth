@@ -23,7 +23,7 @@
                         <img class="kratos-entry-thumb-img lazy-image" data-src="<%- cover %>" alt="<%- url_for(post.title) %>">
                     </a>
                     <% if (post.thumbhash) { %>
-                        <img class="thumbhash-placeholder" data-src="<%- cover + '|' + post.thumbhash %>" alt="">
+                        <img class="thumbhash-placeholder" data-src="<%- cover %>" data-thumbhash="<%- post.thumbhash %>" alt="">
                     <% } %>
                 </div>
             <% } %>

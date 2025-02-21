@@ -654,27 +654,33 @@ import "./kr-polyfill";
     );
     const thumbhashMap = {};
     thumbhashHolders.forEach((holder) => {
-      const datas = holder.dataset.src.split("|");
-      delete holder.dataset.src;
-      thumbhashMap[datas[0]] = {
+      thumbhashMap[holder.dataset.src] = {
         holder: holder,
-        str: datas[1],
+        str: holder.dataset.thumbhash,
       };
     });
 
-    const loadImage = (image) => {
+    // 加载模糊缩略图
+    const tryLoadThumb = (image) => {
       const thumbhashObj = thumbhashMap[image.dataset.src];
       if (thumbhashObj) {
+        // base64 to Uint8Array
         const thumbhash = Uint8Array.from(atob(thumbhashObj.str), (c) =>
           c.charCodeAt(0),
         );
         thumbhashObj.holder.src = thumbHashToDataURL(thumbhash);
+      }
+    };
 
+    // 加载图片
+    const loadImage = (image) => {
+      const thumbhashObj = thumbhashMap[image.dataset.src];
+      if (thumbhashObj) {
         image.addEventListener("load", function () {
           thumbhashObj.holder.classList.add("hide");
           setTimeout(() => {
             thumbhashObj.holder.style.display = "none";
-          }, 500);
+          }, 1200);
         });
       }
 
@@ -695,10 +701,14 @@ import "./kr-polyfill";
       });
 
       lazyLoadImages.forEach((image) => {
+        tryLoadThumb(image);
         observer.observe(image);
       });
     } else {
-      lazyLoadImages.forEach(loadImage);
+      lazyLoadImages.forEach((image) => {
+        tryLoadThumb(image);
+        loadImage(image);
+      });
     }
     //#endregion
   };
