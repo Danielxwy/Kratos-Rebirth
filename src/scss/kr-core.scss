@@ -2353,6 +2353,7 @@ body.scroll-down .kr-tool {
   }
 
   .kratos-social-icons {
+    letter-spacing: -8px; // 去除<li>元素之间的空格
     padding: 0;
     margin-top: 0;
 
@@ -3112,7 +3113,7 @@ body.custom-background {
   opacity: 1;
   width: 100%;
   height: auto;
-  transition: opacity 1.2s ease;
+  transition: opacity 0.6s ease;
 }
 
 .thumbhash-placeholder.hide {

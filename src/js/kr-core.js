@@ -644,6 +644,10 @@ import "./kr-polyfill";
       image.addEventListener("mouseleave", function () {
         this.style.transform = "scale(1)"; // 恢复原大小
       });
+
+      image.addEventListener("mousedown", function () {
+        this.style.transform = "scale(1)"; // 恢复原大小
+      });
     });
     //#endregion
 
@@ -680,7 +684,7 @@ import "./kr-polyfill";
           thumbhashObj.holder.classList.add("hide");
           setTimeout(() => {
             thumbhashObj.holder.style.display = "none";
-          }, 1200);
+          }, 600);
         });
       }
 
