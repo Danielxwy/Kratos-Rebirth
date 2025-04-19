@@ -658,10 +658,13 @@ import "./kr-polyfill";
     );
     const thumbhashMap = {};
     thumbhashHolders.forEach((holder) => {
-      thumbhashMap[holder.dataset.src] = {
-        holder: holder,
-        str: holder.dataset.thumbhash,
-      };
+      if (!thumbhashMap[holder.dataset.src]) {
+        thumbhashMap[holder.dataset.src] = {
+          holders: [],
+          str: holder.dataset.thumbhash,
+        };
+      }
+      thumbhashMap[holder.dataset.src].holders.push(holder);
     });
 
     // 加载模糊缩略图
@@ -672,7 +675,9 @@ import "./kr-polyfill";
         const thumbhash = Uint8Array.from(atob(thumbhashObj.str), (c) =>
           c.charCodeAt(0),
         );
-        thumbhashObj.holder.src = thumbHashToDataURL(thumbhash);
+        thumbhashObj.holders.forEach((holder) => {
+          holder.src = thumbHashToDataURL(thumbhash);
+        });
       }
     };
 
@@ -681,10 +686,12 @@ import "./kr-polyfill";
       const thumbhashObj = thumbhashMap[image.dataset.src];
       if (thumbhashObj) {
         image.addEventListener("load", function () {
-          thumbhashObj.holder.classList.add("hide");
-          setTimeout(() => {
-            thumbhashObj.holder.style.display = "none";
-          }, 600);
+          thumbhashObj.holders.forEach((holder) => {
+            holder.classList.add("hide");
+            setTimeout(() => {
+              holder.style.display = "none";
+            }, 600);
+          });
         });
       }
 
