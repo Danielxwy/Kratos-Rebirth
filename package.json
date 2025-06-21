@@ -39,6 +39,8 @@
     "**/*": "prettier --write --ignore-unknown"
   },
   "dependencies": {
+    "hexo-fs": "^5.0.0",
+    "hexo-log": "^4.1.0",
     "sharp": "^0.33.5",
     "thumbhash": "^0.1.1"
   }
