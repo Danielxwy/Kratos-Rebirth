@@ -452,6 +452,10 @@ import "./kr-polyfill";
                 entry.target.getAttribute("data-toc-id"),
                 10,
               );
+              if (!entry.rootBounds) {
+                // 缺失属性，跳过以避免报错（其实我也不知道为什么）
+                return;
+              }
               if (
                 !entry.isIntersecting &&
                 entry.boundingClientRect.top <= entry.rootBounds.top
@@ -815,7 +819,6 @@ import "./kr-polyfill";
       initPerPage();
     });
   };
-
   if (document.readyState === "complete") {
     setTimeout(themeInit);
   } else {
